@@ -11,9 +11,10 @@
 
 ;; helper functions
 (defun circular (items)
-  "takes a list, and makes it infinately repeat itself."
-              (setf (cdr (last items)) items)
-              items)
+  "takes a list, and makes a copy that infinately repeat itself."
+  (let ((items (copy-list items)))
+	(setf (cdr (last items)) items)
+	items))
 
 ;; 1a
 (defun 1a (input)
@@ -22,10 +23,9 @@
 ;; 1b
 (defun 1b (input)
   ;;declare current freq, and lookup. make input circular
-  (let ((freq 0) (frequencies (make-hash-table)) (input (circular (copy-list input)))) 
+  (let ((freq 0) (frequencies (make-hash-table)) (input (circular input)))
 	(dolist (change input)
 	  (setf freq (+ freq change))
 	  (if (gethash freq frequencies)
 		  (return freq)
 		  (setf (gethash freq frequencies) t)))))
-
