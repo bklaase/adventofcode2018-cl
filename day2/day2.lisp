@@ -14,34 +14,34 @@
   "function that takes a string, and returns a hash-table
    with the number of occurances as value; char as key"
   (let ((table (make-hash-table)))
-	(map nil (lambda (c)
-			   (if (gethash c table)
-				   (incf (gethash c table))
-				   (setf (gethash c table) 1)))
-		 string)
-	table))
+    (map nil (lambda (c)
+               (if (gethash c table)
+                   (incf (gethash c table))
+                   (setf (gethash c table) 1)))
+         string)
+    table))
 
 (defun some-hash-p (pred hash-table)
   "function that checks the hashtable for k,v combo's that match pred"
   (maphash (lambda (k v)
-			 (when (funcall pred k v)
-			   (return-from some-hash-p t)))
-		   hash-table))
+             (when (funcall pred k v)
+               (return-from some-hash-p t)))
+           hash-table))
 
 
 (defun 2b-str-compare (string1 string2)
   "function that when two strings of equal length differ at most one char
    returns the string they have in common, otherwise nil"
   (let ((mismatch-count 0) (result ""))
-	(dotimes (c (length string1))
-	  (let ((c1 (elt string1 c)) (c2 (elt string2 c)))
-		(if (eql c1 c2)
-			(setf result (concatenate 'string  result (string c1)))
-			(progn
-			  (incf mismatch-count)
-			  (when (< 1 mismatch-count)
-				(return-from 2b-str-compare nil))))))
-	result))
+    (dotimes (c (length string1))
+      (let ((c1 (elt string1 c)) (c2 (elt string2 c)))
+        (if (eql c1 c2)
+            (setf result (concatenate 'string  result (string c1)))
+            (progn
+              (incf mismatch-count)
+              (when (< 1 mismatch-count)
+                (return-from 2b-str-compare nil))))))
+    result))
 
 
 ;;; solutions
@@ -49,19 +49,19 @@
 ;; 2a
 (defun 2a (input)
   (let ((occ2 0) (occ3 0))
-	(dolist (item input)
-	  (let ((charmap (string-to-char-table item)))
-		  (when (some-hash-p (lambda (k v) (= 2 v)) charmap) (incf occ2)) 
-		  (when (some-hash-p (lambda (k v) (= 3 v)) charmap) (incf occ3))))
-	(* occ2 occ3)))
+    (dolist (item input)
+      (let ((charmap (string-to-char-table item)))
+        (when (some-hash-p (lambda (k v) (= 2 v)) charmap) (incf occ2)) 
+        (when (some-hash-p (lambda (k v) (= 3 v)) charmap) (incf occ3))))
+    (* occ2 occ3)))
 
 ;; 2b
 (defun 2b (input)
   (let* ((inp-length (length input))
-		 (input (make-array inp-length :initial-contents input)))
-	(dotimes (x inp-length)
-	  (do ((y (1+ x) (incf y))) ((>= y inp-length))
-		(let ((compare-result (2b-str-compare (elt input x) (elt input y))))
-		  (when compare-result (return-from 2b compare-result)))))))
+         (input (make-array inp-length :initial-contents input)))
+    (dotimes (x inp-length)
+      (do ((y (1+ x) (incf y))) ((>= y inp-length))
+        (let ((compare-result (2b-str-compare (elt input x) (elt input y))))
+          (when compare-result (return-from 2b compare-result)))))))
 
-		 
+
