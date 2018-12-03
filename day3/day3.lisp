@@ -22,16 +22,13 @@
   `(let* ((claimindex ,claimindex) 
 		  ,@(mapcar (lambda (var)
 					  (list var `(aref ,claims claimindex
-									   ,(read-from-string (format nil "+~s+" var)))))
+									   ,(read-from-string
+										 (format nil "+~s+" var)))))
 					'(x y w h)))
 	 ,@forms))
 
-(LET* ((CLAIMINDEX 0)
-	   (X (AREF INPUT CLAIMINDEX +X+))
-	   (Y (AREF INPUT CLAIMINDEX +Y+))
-	   (W (AREF INPUT CLAIMINDEX +W+))
-	   (H (AREF INPUT CLAIMINDEX +H+)))
-  (PRINT "x"))
+(bind-claim-props 0 input
+  (print "x"))
 
 ;;; solutions
 (defun 3a (input)
