@@ -16,6 +16,13 @@
 (with-open-file (in-file #P"day5-input.txt")
   (setf *input* (read-line in-file)))
 
+;;; helper functions
+(defun chars-same-different-case (char-a char-b)
+  (let (( a (char-code char-a)) (b (char-code char-b)))
+	(= 32 (- (max a b) (min a b)))))
+
+
+
 ;;; solutions
 ;;3a
 (defun 5a (string) 
